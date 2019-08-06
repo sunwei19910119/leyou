@@ -6,6 +6,8 @@
     <modules>
         <module>leyou-registry</module>
         <module>leyou-api-gateway</module>
+        <module>leyou-upload</module>
+        <module>leyou-common</module>
     </modules>
 
     <parent>
