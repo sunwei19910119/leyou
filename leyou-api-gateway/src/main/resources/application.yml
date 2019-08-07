@@ -20,7 +20,7 @@ zuul:
     upload-service:
       path: /upload/**
       serviceId: upload-service
-      strip-[refix: false
+      strip-prefix: false
   ignored-services:
     - upload-service # 忽略upload-service服务
 ribbon:

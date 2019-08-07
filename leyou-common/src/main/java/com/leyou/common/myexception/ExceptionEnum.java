@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum ExceptionEnum {
     BRAND_NOT_FOUND(404,"品牌不存在"),
+    CATEGORY_NOT_FOUND(404,"分类不存在"),
     UPLOAD_ERROR(500,"文件上传失败"),
     ;
 
