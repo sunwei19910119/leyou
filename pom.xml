@@ -9,6 +9,7 @@
         <module>leyou-upload</module>
         <module>leyou-common</module>
         <module>leyou-item</module>
+        <module>leyou-search</module>
     </modules>
 
     <parent>
