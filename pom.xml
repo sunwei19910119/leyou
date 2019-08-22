@@ -14,6 +14,7 @@
         <module>leyou-sms</module>
         <module>leyou-user</module>
         <module>leyou-authentication</module>
+        <module>leyou-cart</module>
     </modules>
 
     <parent>
