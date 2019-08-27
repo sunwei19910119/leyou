@@ -1,6 +1,6 @@
 ### 一、简介
 #### 项目介绍
-乐优商城是一个全品类电商购物网站（B2C），以SpringCloud为核心构建的微服务架构。  
+乐优商城是一个全品类电商购物网站（B2C），以SpringCloud为核心构建的微服务架构。采用SpringCloudConfig配置中心  
 参考教程： [传送门](https://blog.csdn.net/lyj2018gyq/article/category/7963560)    
 管理后台前端：[传送门](https://github.com/lyj8330328/leyou-manage-web)    
 乐优商城门户：[传送门](https://github.com/lyj8330328/leyou-portal)    

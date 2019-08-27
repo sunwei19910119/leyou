@@ -18,6 +18,7 @@
         <module>leyou-order</module>
         <module>leyou-comments</module>
         <module>leyou-secskill</module>
+        <module>leyou-config</module>
     </modules>
 
     <parent>
