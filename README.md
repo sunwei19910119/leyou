@@ -1,14 +1,51 @@
-### 一、架构图
+### 一、简介
+#### 项目介绍
+乐优商城是一个全品类电商购物网站（B2C），以SpringCloud为核心构建的微服务架构。  
+参考教程： [传送门](https://blog.csdn.net/lyj2018gyq/article/category/7963560)    
+管理后台前端：[传送门](https://github.com/lyj8330328/leyou-manage-web)    
+乐优商城门户：[传送门](https://github.com/lyj8330328/leyou-portal)    
+乐优商城配置文件管理：[传送门](https://github.com/lyj8330328/leyou-config)
+#### 技术选型
+* SpringMVC、Spring 5.0和MyBatis3
+* SpringBoot
+* Spring Cloud 最新版
+* Redis-4.0
+* RabbitMQ-3.4
+* Elasticsearch-6.2.4
+* nginx-1.10.2
+* FastDFS - 5.0.8
+* JWT
+* Thymeleaf
+* MyCat
+#### 技术解读
+* 利用Node.js及Vue，实现前后端分离开发
+* 利用SpringCloud实现微服务
+* 贴近真实的电商数据库设计，解决全品类电商的SPU和SKU管理问题
+* 基于FastDFS解决大数据量的分布式文件存储问题
+* 基于Elasticsearch高级聚合功能，实现商品的智能过滤搜索
+* 基于Elasticsearch高级聚合功能，实现销售业务的复杂统计及报表输出
+* 基于LocalStorage实现离线客户端购物车，减轻服务端压力
+* 基于JWT技术及RSA非对称加密实现真正的无状态的单点登录
+* 结合JWT和RSA，自定义Feign过滤器实现自动化服务间鉴权，解决服务对外暴露的安全问题
+* 阿里云短信功能
+* 使用RabbitMQ实现服务间通信
+* 使用RabbitMQ解决分布式事务问题
+* 实现微信扫码支付
+* 使用Redis搭建高可用集群，实现可靠缓存服务即热点数据保持
+* 利用Redis和MQ实现高并发高可用的秒杀场景
+* 基于MyCat实现数据库的读写分离和分库分表
+* 使用Thymeleaf实现页面模板和静态化，提高页面响应速度和并发能力
+* 使用Nginx实现初步的请求负载均衡和请求限流
+* 基于可靠消息系统实现分布式系统的柔性事务处理
+
+### 二、架构图
 
 ![img](https://img-blog.csdnimg.cn/20181212215151153.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5ajIwMThneXE=,size_16,color_FFFFFF,t_70)
 
 
-### 二、包含的微服务
+### 三、包含的微服务
 
-![img](https://img-blog.csdnimg.cn/20181212215548926.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2x5ajIwMThneXE=,size_16,color_FFFFFF,t_70)
-
-
-### 2.1 网关微服务
+### 3.1 网关微服务
 
 > 架构图
 
@@ -31,7 +68,7 @@
 
 负载均衡和熔断
 
-### 2.2 授权中心微服务
+### 3.2 授权中心微服务
 
 > 结合RSA的鉴权
 
@@ -50,7 +87,7 @@
 1. 用户鉴权：接收用户的登录请求，通过用户中心的接口进行校验，通过后生成JWT。使用私钥生成JWT并返回
 2. 服务鉴权：微服务间的调用不经过Zuul，会有风险，需要鉴权中心进行认证。原理与用户鉴权类似，但逻辑稍微复杂一些（未实现）。
 
-### 2.3 购物车微服务
+### 3.3 购物车微服务
 
 > 功能需求
 
@@ -90,7 +127,7 @@
       - 有：需要提交到后台添加到redis，合并数据，而后查询
       - 否：直接去后台查询redis，而后返回
 
-### 2.4 评论微服务（新增）
+### 3.4 评论微服务
 
 > 功能需求
 
@@ -105,7 +142,7 @@ parent和isparent字段是用来实现评论嵌套的。
 
 使用MongoDB存储评论，基本的CRUD。
 
-### 2.5 配置中心微服务
+### 3.5 配置中心微服务
 
 > 需求
 
@@ -125,15 +162,15 @@ Config Client是Config Server的客户端，用于操作存储在Config Server�
 
 创建配置中心，对Config Server进行配置，然后在其它微服务中配置Config Client。最后使用Github上的Webhooks进行配置的动态刷新，所以还要使用内网穿透工具，同时要在配置中心中添加过滤器，因为使用Webhooks提交请求时会加上一段Payload，而本地是无法解析这个Payload的，所以要将它过滤掉。
 
-### 2.6 页面静态化微服务
+### 3.6 页面静态化微服务
 
 商品详情浏览量比较大，并发高，所以单独开启一个微服务用来展示商品详情，并且对其进行静态化处理，保存为静态html文件。在用户访问商品详情页面时，让nginx对商品请求进行监听，指向本地静态页面，如果本地没找到，才反向代理到页面详情微服务端口。 
 
-### 2.7 后台管理微服务
+### 3.7 后台管理微服务
 
 主要是对商品分类、品牌、商品的规格参数以及商品的CRUD，为后台管理提供各种接口。 
 
-### 2.8 订单微服务
+### 3.8 订单微服务
 
 主要接口有：
 
@@ -143,7 +180,7 @@ Config Client是Config Server的客户端，用于操作存储在Config Server�
 - 根据订单号生成微信付款链接
 - 根据订单号查询支付状态
 
-### 2.9 注册中心
+### 3.9 注册中心
 
 > 基本架构
 
@@ -157,11 +194,11 @@ Config Client是Config Server的客户端，用于操作存储在Config Server�
 
 主要功能就是对各种服务进行管理。
 
-### 2.10 搜索微服务
+### 3.10 搜索微服务
 
 主要是对Elasticsearch的应用，将所有商品数据封装好后添加到Elasticsearch的索引库中，然后进行搜索过滤，查询相应的商品信息。 
 
-### 2.11 秒杀微服务
+### 3.11 秒杀微服务
 
 主要接口有：
 
@@ -177,9 +214,8 @@ Config Client是Config Server的客户端，用于操作存储在Config Server�
 
 后端：接口限流，使用消息队列，调用订单微服务执行下单操作。
 
-TODO：需要改进~~~~~~~~~~~~~！！！！！！！！！！！！！
 
-### 2.12 短信微服务
+### 3.12 短信微服务
 
 因为系统中不止注册一个地方需要短信发送，因此将短信发送抽取为微服务：`leyou-sms-service`，凡是需要的地方都可以使用。
 
@@ -188,7 +224,7 @@ TODO：需要改进~~~~~~~~~~~~~！！！！！！！！！！！！！
 - 短信服务监听MQ消息，收到消息后发送短信。
 - 其它服务要发送短信时，通过MQ通知短信微服务。
 
-### 2.13 文件上传微服务
+### 3.13 文件上传微服务
 
 使用分布式文件系统FastDFS实现图片上传。
 
@@ -225,7 +261,7 @@ FastDFS两个主要的角色：Tracker Server 和 Storage Server 。
 3. Client直接通过Tracker server返回的IP地址和端口与其中一台Storage server建立连接并指定要下载文件。
 4. 下载文件成功。
 
-### 2.14 用户中心微服务
+### 3.14 用户中心微服务
 
 提供的接口：
 
@@ -235,7 +271,7 @@ FastDFS两个主要的角色：Tracker Server 和 Storage Server 。
 - 用户查询
 - 修改用户个人资料
 
-### 三、如何启动项目
+### 四、如何启动项目
 
 在虚拟机中进行以下中间件的配置：
 
@@ -254,12 +290,3 @@ FastDFS两个主要的角色：Tracker Server 和 Storage Server 。
 
 具体请参照：https://blog.csdn.net/lyj2018gyq/article/details/83654179#2.1%20Nginx
 
-### 四、数据库
-
-我的版本是最老的一般，所以数据库可能会和新的不一致，关键就是在商品详情页面的显示上，可以参考我`leyou-goods-web`中的写法，最终效果一致。
-
-另外在数据库中又多了几张表：`tb_address`、`tb_seckill_order`、`tb_seckill_sku`，地址表建议保留，其他的可以连同秒杀微服务一起删掉（如果你不需要的话）
-
-### 五、博客地址
-
-[传送门](https://blog.csdn.net/lyj2018gyq/article/category/7963560)
